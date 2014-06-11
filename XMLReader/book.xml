@@ -1,0 +1,22 @@
+﻿ <thing>
+<person>
+  <first>Kiran</first>
+  <last>Pai</last>
+  <age>22</age>
+</person>
+<person>
+  <first>Bill</first>
+  <last>Gates</last>
+  <age>46</age>
+</person>
+<person>
+  <first>Steve</first>
+  <last>Jobs</last>
+  <age>40</age>
+</person>
+<person>
+<first>Marcus</first>
+<last>Moad</last>
+<age>17</age>
+</person>
+</thing>
