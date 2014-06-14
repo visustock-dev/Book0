@@ -2,6 +2,9 @@ import java.io.File;
 
 import org.w3c.dom.*;
 
+
+import java.util.*;
+
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 
@@ -10,17 +13,13 @@ import org.xml.sax.SAXParseException;
 
 public class ReadAndPrintXMLFile{
 public static void main (String argv []){
-    //readXML();
     getPeople();
     System.out.println("------------");
     getDogs();
     System.out.println("------------");
-    //getDogsALT();
-    //System.out.println("------------");
     getCats();
-    //getCatsALT();
     }//end of main
-    public static void readXML(){
+    public static void readXML(){//Original base function ---- not used
     	
     	    try {
 
@@ -97,7 +96,7 @@ public static void main (String argv []){
     	
     }
     
-    public static void getPeople(){
+    public static void getPeople(){//Displays the people in the XML file
     	try {
 
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -113,6 +112,14 @@ public static void main (String argv []){
             NodeList listOfPersons = doc.getElementsByTagName("person");
             int totalPersons = listOfPersons.getLength();
             System.out.println("Total no of people : " + totalPersons);
+            
+            String[] peopleFNameArray;//----Declares an array of the owners First Names
+            peopleFNameArray = new String[listOfPersons.getLength()];
+            
+            String[] peopleLNameArray;//----Declares an array of the owners Last Names
+            peopleLNameArray = new String[listOfPersons.getLength()];
+            //peopleArray = new String[10];
+            
 
             for(int s=0; s<listOfPersons.getLength() ; s++){
 
@@ -130,6 +137,9 @@ public static void main (String argv []){
                     NodeList textFNList = firstNameElement.getChildNodes();
                     System.out.println("First Name : " + 
                            ((Node)textFNList.item(0)).getNodeValue().trim());
+                    
+                    peopleFNameArray[s] = ((String)(textFNList.item(0)).getNodeValue().trim());
+                   // System.out.println( "Name in string at index : " + s + " : " + peopleFNameArray[s]);
 
                     //-------
                     NodeList lastNameList = firstPersonElement.getElementsByTagName("last");
@@ -138,6 +148,17 @@ public static void main (String argv []){
                     NodeList textLNList = lastNameElement.getChildNodes();
                     System.out.println("Last Name : " + 
                            ((Node)textLNList.item(0)).getNodeValue().trim());
+                    
+                    peopleLNameArray[s] = ((String)(textLNList.item(0)).getNodeValue().trim());
+                  //  System.out.println( "Name in string at index : " + s + " : " + peopleLNameArray[s]);
+                    
+                    //----
+                    NodeList idList = firstPersonElement.getElementsByTagName("id");
+                    Element idElement = (Element)idList.item(0);
+                    
+                    NodeList textIdList = idElement.getChildNodes();
+                    System.out.println("Id : " + 
+                    ((Node)textIdList.item(0)).getNodeValue().trim());
 
                     //----
                     NodeList ageList = firstPersonElement.getElementsByTagName("age");
@@ -172,7 +193,7 @@ public static void main (String argv []){
     	
     }
     
-    public static void getDogsALT(){
+    public static void getDogsALT(){//alternate form of getDogs method ---- not used
     	try {
 
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -221,6 +242,8 @@ public static void main (String argv []){
                     NodeList textAgeList = ageElement.getChildNodes();
                     System.out.println("Owner ID : " + 
                            ((Node)textAgeList.item(0)).getNodeValue().trim());
+                    
+                    //System.out.println( "Name in string at index : " + s + " : " + peopleFNameArray[s]);
 
                     //------
 
@@ -246,7 +269,7 @@ public static void main (String argv []){
         //System.exit (0);
     }
     
-    public static void getCatsALT(){
+    public static void getCatsALT(){//Alternate form of getCats method ---- not used
     	try {
 
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -320,7 +343,7 @@ public static void main (String argv []){
         //System.exit (0);
     }
 
-    public static void getDogs(){
+    public static void getDogs(){//Displays dogs in the XML file
     	try {
 
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -369,6 +392,12 @@ public static void main (String argv []){
                     NodeList textOwnerList = ownerElement.getChildNodes();
                     System.out.println("Owner ID : " + 
                            ((Node)textOwnerList.item(0)).getNodeValue().trim());
+                    //int x;
+                    int x = Integer.parseInt(textOwnerList.item(0).getNodeValue());
+                    //x = ((Node)textOwnerList.item(0)).getNodeValue().trim();
+                    //System.out.println(x);
+                    
+                    owner(x);
 
                     //------
 
@@ -394,7 +423,7 @@ public static void main (String argv []){
         //System.exit (0);
     }
     
-    public static void getCats(){
+    public static void getCats(){//Displays cats in the XML file
     	try {
 
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -440,9 +469,12 @@ public static void main (String argv []){
                     NodeList ownerList = catElement.getElementsByTagName("ownerId");
                     Element ownerElement = (Element)ownerList.item(0);
 
-                    NodeList textAgeList = ownerElement.getChildNodes();
+                    NodeList textOwnerList = ownerElement.getChildNodes();
                     System.out.println("Owner ID : " + 
-                           ((Node)textAgeList.item(0)).getNodeValue().trim());
+                           ((Node)textOwnerList.item(0)).getNodeValue().trim());
+                    
+                    int x = Integer.parseInt(textOwnerList.item(0).getNodeValue());
+                    owner(x);
 
                     //------
 
@@ -466,6 +498,107 @@ public static void main (String argv []){
         t.printStackTrace ();
         }
         //System.exit (0);
+    }
+    
+    public static void owner(int b){//Displays who owns the dog or cat, using a person from the people element
+    	int s = b-1;
+    	
+    	try {
+
+            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+            Document doc = docBuilder.parse (new File("pets.xml"));
+
+            // normalize text representation
+            doc.getDocumentElement ().normalize ();
+            //System.out.println ("Root element of the doc is " + 
+                 //doc.getDocumentElement().getNodeName());
+
+
+            NodeList listOfPersons = doc.getElementsByTagName("person");
+            int totalPersons = listOfPersons.getLength();
+            //System.out.println("Total no of people : " + totalPersons);
+            
+            String[] peopleFNameArray;//----Declares an array of the owners First Names
+            peopleFNameArray = new String[listOfPersons.getLength()];
+            
+            String[] peopleLNameArray;//----Declares an array of the owners Last Names
+            peopleLNameArray = new String[listOfPersons.getLength()];
+            //peopleArray = new String[10];
+            
+
+            
+
+
+                Node firstPersonNode = listOfPersons.item(s);
+                if(firstPersonNode.getNodeType() == Node.ELEMENT_NODE){
+
+
+                    Element firstPersonElement = (Element)firstPersonNode;
+
+                    //-------
+                    NodeList firstNameList = firstPersonElement.getElementsByTagName("first");
+                    Element firstNameElement = (Element)firstNameList.item(0);
+
+                    NodeList textFNList = firstNameElement.getChildNodes();
+                   // System.out.println("First Name : " + 
+                      //     ((Node)textFNList.item(0)).getNodeValue().trim());
+                    
+                    peopleFNameArray[s] = ((String)(textFNList.item(0)).getNodeValue().trim());
+                    
+
+                    //-------
+                    NodeList lastNameList = firstPersonElement.getElementsByTagName("last");
+                    Element lastNameElement = (Element)lastNameList.item(0);
+
+                    NodeList textLNList = lastNameElement.getChildNodes();
+                   // System.out.println("Last Name : " + 
+                    //       ((Node)textLNList.item(0)).getNodeValue().trim());
+                    
+                    peopleLNameArray[s] = ((String)(textLNList.item(0)).getNodeValue().trim());
+                   // System.out.println( "Name in string at index : " + s + " : " + peopleLNameArray[s]);
+                    
+                    //----
+                    NodeList idList = firstPersonElement.getElementsByTagName("id");
+                    Element idElement = (Element)idList.item(0);
+                    
+                    NodeList textIdList = idElement.getChildNodes();
+                   // System.out.println("Id : " + 
+                   // ((Node)textIdList.item(0)).getNodeValue().trim());
+
+                    //----
+                    NodeList ageList = firstPersonElement.getElementsByTagName("age");
+                    Element ageElement = (Element)ageList.item(0);
+
+                    NodeList textAgeList = ageElement.getChildNodes();
+                   // System.out.println("Age : " + 
+                     //      ((Node)textAgeList.item(0)).getNodeValue().trim());
+
+                    //------
+                    System.out.println( "Owner : " + peopleFNameArray[s] + " " + peopleLNameArray[s]);
+
+
+                }//end of if clause
+
+
+            
+
+
+        }catch (SAXParseException err) {
+        System.out.println ("** Parsing error" + ", line " 
+             + err.getLineNumber () + ", uri " + err.getSystemId ());
+        System.out.println(" " + err.getMessage ());
+
+        }catch (SAXException e) {
+        Exception x = e.getException ();
+        ((x == null) ? e : x).printStackTrace ();
+
+        }catch (Throwable t) {
+        t.printStackTrace ();
+        }
+        //System.exit (0);
+    	
+    	
     }
 
 
