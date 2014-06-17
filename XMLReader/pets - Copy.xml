@@ -1,0 +1,42 @@
+<pets>
+	<people>
+		<person>
+			<id>1</id>
+			<first>Kiran</first>
+			<last>Pai</last>
+			<age>22</age>
+		</person>
+		<person>
+			<id>2</id>
+			<first>Bill</first>
+			<last>Gates</last>
+			<age>46</age>
+		</person>
+		<person>
+			<id>3</id>
+			<first>Steve</first>
+			<last>Jobs</last>
+			<age>40</age>
+		</person>
+	</people>
+	<dogs>
+		<dog>
+			<id>1</id>
+			<name>fido</name>
+			<ownerId>2</ownerId>
+		</dog>
+		<dog>
+			<id>2</id>
+			<name>brutus</name>
+			<ownerId>1</ownerId>
+		</dog>
+	</dogs>
+	<cats>
+		<cat>
+			<id>1</id>
+			<name>Xander</name>
+			<ownerId>3</ownerId>
+		</cat>
+	</cats>
+
+</pets>

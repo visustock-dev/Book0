@@ -12,27 +12,23 @@ import org.xml.sax.SAXParseException;
 
 public class ReadAndPrintXMLFile{
 public static void main (String[] args){
-	
-	for (String s: args) {
-        System.out.println(s);
-
-    Document doc = getDoc(s);
+    Document doc = getDoc( args);
     getPeople(doc);
     System.out.println("------------");
     getPets(doc, "dog");
     System.out.println("------------");
     getPets(doc, "cat");
-	}
     }//end of main
     
-    public static Document getDoc(String s){//Creates a document variable from the file input
+    public static Document getDoc(String[] args){//Creates a document variable from the file input
+    	String[] s= args;
+    	System.out.println(s);
     	Document doc = null;
 	    try {
 
 	            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 	            DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-	            //doc = docBuilder.parse (new File("pets.xml"));
-	            doc = docBuilder.parse (new File(s));
+	            doc = docBuilder.parse (new File("pets.xml"));
 
 	            // normalize text representation
 	            doc.getDocumentElement ().normalize ();
