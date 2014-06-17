@@ -129,61 +129,68 @@ public static void main (String[] args){
 
             NodeList listOfDogs = doc.getElementsByTagName(petType);
             int totalDogs = listOfDogs.getLength();
-            System.out.println("Total no of " + petType + "s: " + totalDogs);
+            if (totalDogs == 0){
+            	System.out.println("No " + petType + "s in this file!");
+            }
+            else {
+            	System.out.println("Total no of " + petType + "s: " + totalDogs);
 
-            for(int s=0; s<listOfDogs.getLength() ; s++){
-
-
-                Node dogNode = listOfDogs.item(s);
-                if(dogNode.getNodeType() == Node.ELEMENT_NODE){
-
-
-                    Element dogElement = (Element)dogNode;
-
-                    //-------
-                    NodeList dogIdList = dogElement.getElementsByTagName("id");
-                    Element dogIdElement = (Element)dogIdList.item(0);
-
-                    NodeList textFNList = dogIdElement.getChildNodes();
-                    System.out.println("ID : " + 
-                           ((Node)textFNList.item(0)).getNodeValue().trim());
-
-                    //-------
-                    NodeList dogNameList = dogElement.getElementsByTagName("name");
-                    Element dogNameElement = (Element)dogNameList.item(0);
-
-                    NodeList textLNList = dogNameElement.getChildNodes();
-                    System.out.println("Name : " + 
-                           ((Node)textLNList.item(0)).getNodeValue().trim());
-
-                    //----
-                    NodeList ownerList = dogElement.getElementsByTagName("ownerId");
-                    Element ownerElement = (Element)ownerList.item(0);
-
-                    NodeList textOwnerList = ownerElement.getChildNodes();
-                    System.out.println("Owner ID : " + 
-                           ((Node)textOwnerList.item(0)).getNodeValue().trim());
-                    //int x;
-                    int x = Integer.parseInt(textOwnerList.item(0).getNodeValue());
-                    //x = ((Node)textOwnerList.item(0)).getNodeValue().trim();
-                    //System.out.println(x);
-                    
-                    owner(x, doc);
-
-                    //------
+                for(int s=0; s<listOfDogs.getLength() ; s++){
 
 
-                }//end of if clause
+                    Node dogNode = listOfDogs.item(s);
+                    if(dogNode.getNodeType() == Node.ELEMENT_NODE){
 
 
-            }//end of for loop with s var
+                        Element dogElement = (Element)dogNode;
+
+                        //-------
+                        NodeList dogIdList = dogElement.getElementsByTagName("id");
+                        Element dogIdElement = (Element)dogIdList.item(0);
+
+                        NodeList textFNList = dogIdElement.getChildNodes();
+                        System.out.println("ID : " + 
+                               ((Node)textFNList.item(0)).getNodeValue().trim());
+
+                        //-------
+                        NodeList dogNameList = dogElement.getElementsByTagName("name");
+                        Element dogNameElement = (Element)dogNameList.item(0);
+
+                        NodeList textLNList = dogNameElement.getChildNodes();
+                        System.out.println("Name : " + 
+                               ((Node)textLNList.item(0)).getNodeValue().trim());
+
+                        //----
+                        NodeList ownerList = dogElement.getElementsByTagName("ownerId");
+                        Element ownerElement = (Element)ownerList.item(0);
+
+                        NodeList textOwnerList = ownerElement.getChildNodes();
+                        System.out.println("Owner ID : " + 
+                               ((Node)textOwnerList.item(0)).getNodeValue().trim());
+                        //int x;
+                        int x = Integer.parseInt(textOwnerList.item(0).getNodeValue());
+                        //x = ((Node)textOwnerList.item(0)).getNodeValue().trim();
+                        //System.out.println(x);
+                        
+                        owner(x, doc);
+
+                        //------
 
 
-        }catch (Throwable t) {
-        t.printStackTrace ();
-        }
-        //System.exit (0);
-    }
+                    }//end of if clause
+
+
+                }//end of for loop with s var
+
+
+            }
+            }catch (Throwable t) {
+            t.printStackTrace ();
+            }
+            //System.exit (0);
+            }
+            
+    
         
     public static void owner(int b, Document doc){//Displays who owns the dog or cat, using a person from the people element
     	int s = b-1;
@@ -191,7 +198,7 @@ public static void main (String[] args){
     	try {
 
             NodeList listOfPersons = doc.getElementsByTagName("person");
-            int totalPersons = listOfPersons.getLength();
+            //int totalPersons = listOfPersons.getLength();
             //System.out.println("Total no of people : " + totalPersons);
             
             String[] peopleFNameArray;//----Declares an array of the owners First Names
@@ -234,18 +241,18 @@ public static void main (String[] args){
                    // System.out.println( "Name in string at index : " + s + " : " + peopleLNameArray[s]);
                     
                     //----
-                    NodeList idList = firstPersonElement.getElementsByTagName("id");
-                    Element idElement = (Element)idList.item(0);
+                    //NodeList idList = firstPersonElement.getElementsByTagName("id");
+                    //Element idElement = (Element)idList.item(0);
                     
-                    NodeList textIdList = idElement.getChildNodes();
+                   // NodeList textIdList = idElement.getChildNodes();
                    // System.out.println("Id : " + 
                    // ((Node)textIdList.item(0)).getNodeValue().trim());
 
                     //----
-                    NodeList ageList = firstPersonElement.getElementsByTagName("age");
-                    Element ageElement = (Element)ageList.item(0);
+                   // NodeList ageList = firstPersonElement.getElementsByTagName("age");
+                    //Element ageElement = (Element)ageList.item(0);
 
-                    NodeList textAgeList = ageElement.getChildNodes();
+                    //NodeList textAgeList = ageElement.getChildNodes();
                    // System.out.println("Age : " + 
                      //      ((Node)textAgeList.item(0)).getNodeValue().trim());
 

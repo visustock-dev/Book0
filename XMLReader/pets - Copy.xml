@@ -19,24 +19,4 @@
 			<age>40</age>
 		</person>
 	</people>
-	<dogs>
-		<dog>
-			<id>1</id>
-			<name>fido</name>
-			<ownerId>2</ownerId>
-		</dog>
-		<dog>
-			<id>2</id>
-			<name>brutus</name>
-			<ownerId>1</ownerId>
-		</dog>
-	</dogs>
-	<cats>
-		<cat>
-			<id>1</id>
-			<name>Xander</name>
-			<ownerId>3</ownerId>
-		</cat>
-	</cats>
-
 </pets>
