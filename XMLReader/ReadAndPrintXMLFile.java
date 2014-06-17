@@ -15,7 +15,8 @@ public static void main (String[] args){
 	
 	for (String s: args) {
         System.out.println(s);
-
+    Checker(s);
+    System.out.println("------------");
     Document doc = getDoc(s);
     getPeople(doc);
     System.out.println("------------");
@@ -264,6 +265,18 @@ public static void main (String[] args){
         //System.exit (0);
     	
     	
+    }
+    public static void Checker(String s) {
+    	 
+  	  File f = new File(s);
+   
+  	  if(f.exists()){
+  		  System.out.println("File existed");
+  	  }else{
+  		  System.out.println("File not found!");
+  		System.exit(1);
+  	  }
+   
     }
 
 
