@@ -374,7 +374,7 @@ public static void main (String[] args){
                         System.out.println("Name : " + 
                                ((Node)textLNList.item(0)).getNodeValue().trim());
                         
-                        RegExDigitChecker(((Node)textFNList.item(0)).getNodeValue().trim() ,  0);
+                        RegExDigitChecker(((Node)textLNList.item(0)).getNodeValue().trim() ,  0);
 
                         //----
                         NodeList ownerList = dogElement.getElementsByTagName("ownerId");
