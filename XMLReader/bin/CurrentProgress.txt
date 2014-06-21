@@ -1,0 +1,5 @@
+The program now supports args input from the command line, and checks to see if the specified file exists before
+attempting to run the entire program.
+If there are no dogs or cats in the file, the program will return a message indicating that there are no dogs or cats in the 
+file.  Dogs and cats are checked independantly.
+This program also checks if there are no people in the file, and returns a message saying that there are no people.
