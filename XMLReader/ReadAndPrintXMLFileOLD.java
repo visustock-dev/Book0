@@ -10,7 +10,7 @@ import javax.xml.parsers.DocumentBuilder;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException; 
 
-public class ReadAndPrintXMLFile{
+public class ReadAndPrintXMLFileOLD{
 public static void main (String[] args){
 
 	for (String s: args) {//File will run for each string entered in the cmd separated by white space
@@ -105,7 +105,7 @@ public static void main (String[] args){
 
             NodeList listOfPersons = doc.getElementsByTagName("person");
             int totalPersons = listOfPersons.getLength();
-            //System.out.println("Total no of people : " + totalPersons);
+            System.out.println("Total no of people : " + totalPersons);
             
             String[][] People = new String[totalPersons][3];
             
@@ -127,8 +127,8 @@ public static void main (String[] args){
                     Element firstNameElement = (Element)firstNameList.item(0);
 
                     NodeList textFNList = firstNameElement.getChildNodes();
-                    //System.out.println("First Name : " + 
-                    //       ((Node)textFNList.item(0)).getNodeValue().trim());
+                    System.out.println("First Name : " + 
+                           ((Node)textFNList.item(0)).getNodeValue().trim());
                     
                     if(RegExDigitChecker(((Node)textFNList.item(0)).getNodeValue().trim() ,  0)==0){
                     	
@@ -146,8 +146,8 @@ public static void main (String[] args){
                     Element lastNameElement = (Element)lastNameList.item(0);
 
                     NodeList textLNList = lastNameElement.getChildNodes();
-                    //System.out.println("Last Name : " + 
-                    //       ((Node)textLNList.item(0)).getNodeValue().trim());
+                    System.out.println("Last Name : " + 
+                           ((Node)textLNList.item(0)).getNodeValue().trim());
                     
                     if(RegExDigitChecker(((Node)textLNList.item(0)).getNodeValue().trim() ,  0) == 0){
                     	People[s][2] = ((String)(textLNList.item(0)).getNodeValue().trim());//-----------------------Puts in the last name into the array location 
@@ -165,8 +165,8 @@ public static void main (String[] args){
                     
                     
                     NodeList textIdList = idElement.getChildNodes();
-                    //System.out.println("Id : " + 
-                    //((Node)textIdList.item(0)).getNodeValue().trim());
+                    System.out.println("Id : " + 
+                    ((Node)textIdList.item(0)).getNodeValue().trim());
                     valid = 0;
                     try{
                         double d= Double.valueOf(((Node)textIdList.item(0)).getNodeValue().trim());
@@ -194,7 +194,7 @@ public static void main (String[] args){
                     
                     if(s!= 0){
                     if(idChecker(peopleIDArray, ((Node)textIdList.item(0)).getNodeValue().trim(), s )==0){
-            			System.out.println("ERROR, duplicate IDs detected");
+            			System.out.println("Error, duplicate IDs detected");
             			valid = 1;
                     }
                     }
@@ -213,8 +213,8 @@ public static void main (String[] args){
 	                    Element ageElement = (Element)ageList.item(0);
 
 	                    NodeList textAgeList = ageElement.getChildNodes();
-	                    //System.out.println("Age : " + 
-	                    //       ((Node)textAgeList.item(0)).getNodeValue().trim());
+	                    System.out.println("Age : " + 
+	                           ((Node)textAgeList.item(0)).getNodeValue().trim());
                    
 
                     //------
@@ -228,8 +228,7 @@ public static void main (String[] args){
             for(int i = 0; i<totalPersons; i++){
             	People[i][0] = peopleIDArray[i]; 
             }
-            int count = 0;
-            System.out.println("ID" +"|" + "First" + "|"  + "Last");
+            
             for(int b = 0; b<totalPersons; b++){
             	//People[i][0] = peopleIDArray[b]; 
             	if(People[b][0]=="NoId"||People[b][1]=="ERROR"||People[b][2]=="ERROR"||People[b][0]=="NoID"){
@@ -237,11 +236,9 @@ public static void main (String[] args){
             	}
             	else{
             		System.out.println(People[b][0]+"  " + People[b][1] + " " + People[b][2]);
-            		count++;
             	}
             	
             }
-            System.out.println("Total people: " + count);
             return People;
             
           
@@ -279,9 +276,7 @@ public static void main (String[] args){
             	System.out.println("No " + petType + "s in this file!");
             }
             else {
-            	//System.out.println("Total no of " + petType + "s: " + totalDogs);
-            	
-            	String[][] Pets = new String[totalDogs][3];
+            	System.out.println("Total no of " + petType + "s: " + totalDogs);
             	
             	String[] petIDArray;//----Declares an array of the pets IDs
             	petIDArray = new String[listOfDogs.getLength()];
@@ -300,28 +295,19 @@ public static void main (String[] args){
                         Element dogIdElement = (Element)dogIdList.item(0);
 
                         NodeList textFNList = dogIdElement.getChildNodes();
-                        //System.out.println("ID : " + 
-                        //       ((Node)textFNList.item(0)).getNodeValue().trim());
+                        System.out.println("ID : " + 
+                               ((Node)textFNList.item(0)).getNodeValue().trim());
                         
                         try{
                             double d= Double.valueOf(((Node)textFNList.item(0)).getNodeValue().trim());
                             if (d==(int)d&&d>0){
                             	//ID is an integer above 0
-                            	Pets[s][0] = ((Node)textFNList.item(0)).getNodeValue().trim();
                             }else{//ID is not an integer above 0
                             	System.out.println("ERROR, all IDs must be integer values");
                                 System.out.println("Please change this id: "+d);
-                                Pets[s][0] = "NoID";
-                                Pets[s][1] = "ERROR";
-                                Pets[s][2] = "ERROR";
-                                
                             }
                         }catch(Exception e){
                         	System.out.println("ERROR, IDs must be integers only");
-                            Pets[s][0] = "NoID";
-                            Pets[s][1] = "ERROR";
-                            Pets[s][2] = "ERROR";
-                            
                         }
                         
                         if(s == 0){
@@ -335,13 +321,6 @@ public static void main (String[] args){
                         if(s!= 0){
                         if(idChecker(petIDArray, ((Node)textFNList.item(0)).getNodeValue().trim(), s )==0){
                 			System.out.println("Error, duplicate IDs detected");
-                            Pets[s][0] = "NoID";
-                            Pets[s][1] = "ERROR";
-                            Pets[s][2] = "ERROR";
-                            
-                        }
-                        else{
-                        	Pets[s][0] = ((Node)textFNList.item(0)).getNodeValue().trim();
                         }
                         }
                         petIDArray[s] = ((Node)textFNList.item(0)).getNodeValue().trim();
@@ -352,28 +331,20 @@ public static void main (String[] args){
                         Element dogNameElement = (Element)dogNameList.item(0);
 
                         NodeList textLNList = dogNameElement.getChildNodes();
-                        //System.out.println("Name : " + 
-                        //       ((Node)textLNList.item(0)).getNodeValue().trim());
+                        System.out.println("Name : " + 
+                               ((Node)textLNList.item(0)).getNodeValue().trim());
                         
                         
                         
-                        if(RegExDigitChecker(((Node)textLNList.item(0)).getNodeValue().trim() ,  0)==0){
-                        	Pets[s][1] = ((Node)textLNList.item(0)).getNodeValue().trim();
-                        }
-                        else{
-                            Pets[s][0] = "NoID";
-                            Pets[s][1] = "ERROR";
-                            Pets[s][2] = "ERROR";
-                            
-                        }
+                        RegExDigitChecker(((Node)textLNList.item(0)).getNodeValue().trim() ,  0);
 
                         //----
                         NodeList ownerList = dogElement.getElementsByTagName("ownerId");
                         Element ownerElement = (Element)ownerList.item(0);
 
                         NodeList textOwnerList = ownerElement.getChildNodes();
-                        //System.out.println("Owner ID : " + 
-                        //       ((Node)textOwnerList.item(0)).getNodeValue().trim());
+                        System.out.println("Owner ID : " + 
+                               ((Node)textOwnerList.item(0)).getNodeValue().trim());
                         
                         int test = 0;
                         
@@ -382,39 +353,25 @@ public static void main (String[] args){
                             if (d==(int)d&&d>0){
                             	test = 0;
                             	//ID is an integer above 0
-                            	Pets[s][2] = ((Node)textOwnerList.item(0)).getNodeValue().trim();
-                            }
-                            else{//ID is not an integer above 0
+                            }else{//ID is not an integer above 0
                             	System.out.println("ERROR, all IDs must be integer values");
                                 System.out.println("Please change this id: "+d);
                                 test = 1;
-                                Pets[s][0] = "NoID";
-                                Pets[s][1] = "ERROR";
-                                Pets[s][2] = "ERROR";
-                                
                             }
                         }catch(Exception e){
                         	test = 1;
                         	System.out.println("ERROR, IDs must be integers only");
-                            Pets[s][0] = "NoID";
-                            Pets[s][1] = "ERROR";
-                            Pets[s][2] = "ERROR";
-                            
                         }
                         
                         
-                        /*if(test==0){
+                        if(test==0){
                         	int x = Integer.parseInt(textOwnerList.item(0).getNodeValue());
                         	owner(x, doc, People);
                         	
                         }
                         else{
                         	System.out.println("Owner cannot be found due to non integer id for owner id");
-                            Pets[s][0] = "NoID";
-                            Pets[s][1] = "ERROR";
-                            Pets[s][2] = "ERROR";
-                              
-                            }*/
+                        }
                         
 
                         //------
@@ -424,22 +381,8 @@ public static void main (String[] args){
 
 
                 }//end of for loop with s var
-                int count = 0;
-                System.out.println("ID" +"|" + "Name" + "|"  + "Owner ID");
-                for(int b = 0; b<totalDogs; b++){
-                	//People[i][0] = peopleIDArray[b]; 
-                	if(Pets[b][0]=="NoId"||Pets[b][1]=="ERROR"||Pets[b][2]=="ERROR"||Pets[b][0]=="NoID"){
-                		
-                	}
-                	else{
-                		System.out.println(Pets[b][0]+"  " + Pets[b][1] + " " + Pets[b][2]);
-                		int x = Integer.parseInt(Pets[b][2]);
-                    	owner(x, doc, People);
-                		count++;
-                	}
-                	
-                }
-                System.out.println("Total pets: " + count);
+                
+                
                 
 
 
@@ -578,7 +521,7 @@ public static void main (String[] args){
 	   if(type == 1){//This type will be used to check the ID's 
 		   
 		    if(x.matches(".*\\d.*")){//String does not contain a letter and contains a number
-		       //System.out.println("ID is valid");
+		       System.out.println("ID is valid");
 		       return 0;
 		   }
 		   else{//ID does not contain a number or a letter
@@ -592,7 +535,7 @@ public static void main (String[] args){
 			       System.out.println("ERROR, names may not contain numbers");
 			       return 1;
 			   } else{
-			       //System.out.println("Name is valid");
+			       System.out.println("Name is valid");
 			       return 0;
 			   }
 		   }
