@@ -15,15 +15,24 @@ public class ReadAndPrintXMLFile{
 public static void main (String[] args){
 	
 	System.out.println(args[0]);
-	for (String s: args) {//File will run for each string entered in the cmd separated by white space
+	//int inputTokened = 0;
+	for (int q = 0; q<args.length; q++) {//File will run for each string entered in the cmd separated by white space
+		String s = args[q];
         System.out.println(s);
         
         
         if(s.matches(".*^\\-.*")){
         	System.out.println("HYPHEN SUCCESS");
-        	
+        	//inputTokened = 1;
+        	//String token = tokenizer(s);
+        	String token = s;
+        	q++;
+        	s = args[q];
+        	System.out.println(s);
         }
-        //String token = tokenizer(s);
+        
+        
+        
 
         
         
@@ -627,13 +636,27 @@ public static void main (String[] args){
 
    
    
-  /* public static String tokenizer(String arg){
+/*   public static String tokenizer(String arg){
 	   String Token;
 	   
 	   return Token;
- */  }
+   }*/
    
    
    
+}
 
-//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
