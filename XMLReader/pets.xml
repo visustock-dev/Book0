@@ -21,7 +21,7 @@
 	</people>
 	<dogs>
 		<dog>
-			<id>1</id>
+			<id>2</id>
 			<name>fido</name>
 			<ownerId>2</ownerId>
 		</dog>
