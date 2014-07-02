@@ -13,64 +13,89 @@ import org.xml.sax.SAXParseException;
 public class ReadAndPrintXMLFile{
 	
 public static void main (String[] args){
-	
+	String file = null;
+	String pass = null;
+	String user = null;
 	System.out.println(args[0]);
 	//int inputTokened = 0;
 	for (int q = 0; q<args.length; q++) {//File will run for each string entered in the cmd separated by white space
 		String s = args[q];
-        System.out.println(s);
+        
+        //String token;
         
         
-        if(s.matches(".*^\\-.*")){
+        /*if(s.matches(".*^\\-.*")){
         	System.out.println("HYPHEN SUCCESS");
         	//inputTokened = 1;
         	//String token = tokenizer(s);
-        	String token = s;
+        	token = s;
         	q++;
         	s = args[q];
+        	System.out.println(s);
+        }*/
+        if(s.matches("-p")){
+        	q++;
+        	pass = args[q];
+        	
+        }
+        else if(s.matches("-u")){
+        	q++;
+        	user = args[q];
+        	
+        }
+        else if(s.matches("-file")){
+        	q++;
+        	file = args[q];
+        	//s = args[q];
         	System.out.println(s);
         }
         
         
         
-
         
-        
-        
-        if(fileExists(s) == 1){
-        int fileValid = -1;
-        
-        if(s.matches(".*\\.xml.*$")){
-        	System.out.println("file is type XML MATCHES SUCCESS");
-        	fileValid = 0;
-        }
-        else{
-        	System.out.println("MATCHES DID NOT DETECT XML");
-        	fileValid = 1;
-        }
-        
-    if(fileValid == 0){
-    System.out.println("------------");
-    
-    
-    
-    Document doc = getDoc(s);
-    
-    
-    
-    String[][] People = getPeople(doc);
-    
-    System.out.println("------------");
-    
-    
-    
-    getPets(doc, "dog", People);
-    System.out.println("------------");
-    getPets(doc, "cat", People);
-    }
-    
 	}
+	if(file != null&&pass!=null&&user!=null){
+		
+		if(fileExists(file) == 1){
+            int fileValid = -1;
+            
+            if(file.matches(".*\\.xml.*$")){
+            	System.out.println("file is type XML MATCHES SUCCESS");
+            	fileValid = 0;
+            }
+            else{
+            	System.out.println("MATCHES DID NOT DETECT XML");
+            	fileValid = 1;
+            }
+            
+        if(fileValid == 0){
         System.out.println("------------");
+        
+        
+        
+        Document doc = getDoc(file);
+        
+        
+        
+        String[][] People = getPeople(doc);
+        
+        System.out.println("------------");
+        
+        
+        
+        getPets(doc, "dog", People);
+        System.out.println("------------");
+        getPets(doc, "cat", People);
+        }
+        
+    	}
+            System.out.println("------------");
+	}
+	else{
+		System.out.println("ERROR");
+		System.out.println("File: " + file);
+		System.out.println("Username: " + user);
+		System.out.println("Password: " + pass);
 	}
     }//end of main
 
@@ -636,7 +661,7 @@ public static void main (String[] args){
 
    
    
-/*   public static String tokenizer(String arg){
+   /*public static String tokenizer(String arg){
 	   String Token;
 	   
 	   return Token;
