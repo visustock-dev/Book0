@@ -11,48 +11,91 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException; 
 
 public class ReadAndPrintXMLFile{
+	
 public static void main (String[] args){
-
-	for (String s: args) {//File will run for each string entered in the cmd separated by white space
-        System.out.println(s);
-
+	String file = null;
+	String pass = null;
+	String user = null;
+	System.out.println(args[0]);
+	//int inputTokened = 0;
+	for (int q = 0; q<args.length; q++) {//File will run for each string entered in the cmd separated by white space
+		String s = args[q];
+        
+        //String token;
         
         
-        
-        if(fileExists(s) == 1){
-        int fileValid = -1;
-        
-        if(s.matches(".*\\.xml.*$")){
-        	System.out.println("file is type XML MATCHES SUCCESS");
-        	fileValid = 0;
+        /*if(s.matches(".*^\\-.*")){
+        	System.out.println("HYPHEN SUCCESS");
+        	//inputTokened = 1;
+        	//String token = tokenizer(s);
+        	token = s;
+        	q++;
+        	s = args[q];
+        	System.out.println(s);
+        }*/
+        if(s.matches("-p")){
+        	q++;
+        	pass = args[q];
+        	
         }
-        else{
-        	System.out.println("MATCHES DID NOT DETECT XML");
-        	fileValid = 1;
+        else if(s.matches("-u")){
+        	q++;
+        	user = args[q];
+        	
+        }
+        else if(s.matches("-file")){
+        	q++;
+        	file = args[q];
+        	//s = args[q];
+        	System.out.println(s);
         }
         
-    if(fileValid == 0){
-    System.out.println("------------");
-    
-    
-    
-    Document doc = getDoc(s);
-    
-    
-    
-    String[][] People = getPeople(doc);
-    
-    System.out.println("------------");
-    
-    
-    
-    getPets(doc, "dog", People);
-    System.out.println("------------");
-    getPets(doc, "cat", People);
-    }
-    
+        
+        
+        
 	}
+	if(file != null&&pass!=null&&user!=null){
+		
+		if(fileExists(file) == 1){
+            int fileValid = -1;
+            
+            if(file.matches(".*\\.xml.*$")){
+            	System.out.println("file is type XML MATCHES SUCCESS");
+            	fileValid = 0;
+            }
+            else{
+            	System.out.println("MATCHES DID NOT DETECT XML");
+            	fileValid = 1;
+            }
+            
+        if(fileValid == 0){
         System.out.println("------------");
+        
+        
+        
+        Document doc = getDoc(file);
+        
+        
+        
+        String[][] People = getPeople(doc);
+        
+        System.out.println("------------");
+        
+        
+        
+        getPets(doc, "dog", People);
+        System.out.println("------------");
+        getPets(doc, "cat", People);
+        }
+        
+    	}
+            System.out.println("------------");
+	}
+	else{
+		System.out.println("ERROR");
+		System.out.println("File: " + file);
+		System.out.println("Username: " + user);
+		System.out.println("Password: " + pass);
 	}
     }//end of main
 
@@ -111,7 +154,7 @@ public static void main (String[] args){
             
             int valid = 0;  
             String[] peopleIDArray;//----Declares an array of the owners First Names
-            peopleIDArray = new String[listOfPersons.getLength()];
+            peopleIDArray = new String[listOfPersons.getLength()];//-------------------NOTICE This has to be done to check ID's, it is more efficient than another method I tested, in fact, many times more efficient
             
             for(int s=0; s<listOfPersons.getLength() ; s++){
 
@@ -136,7 +179,7 @@ public static void main (String[] args){
                     	
                     }
                     else{
-                    	People[s][1] = "ERROR";
+                    	People[s][1] = null;
                     }
                     
                     
@@ -153,7 +196,7 @@ public static void main (String[] args){
                     	People[s][2] = ((String)(textLNList.item(0)).getNodeValue().trim());//-----------------------Puts in the last name into the array location 
                     }
                     else{
-                    	People[s][2] = "ERROR";
+                    	People[s][2] = null;
                     }
                     
                     
@@ -172,8 +215,9 @@ public static void main (String[] args){
                         double d= Double.valueOf(((Node)textIdList.item(0)).getNodeValue().trim());
                         if (d==(int)d&&d>0){
                         	//ID is an integer above 0
-                        	valid = 0;
-                        }else{//ID is not an integer above 0
+                        	//valid = 0;
+                        }
+                        else{//ID is not an integer above 0
                         	System.out.println("ERROR, all IDs must be integer values");
                             System.out.println("Please change this id: "+ d);
                             valid = 1;
@@ -183,23 +227,31 @@ public static void main (String[] args){
                         System.out.println("ERROR, IDs must be integers only");
                     }
                    
-                    if(s == 0){
+                    /*if(s == 0){
                     	for(int z = 0; z<totalPersons; z++){
-                    		peopleIDArray[z] = "NoID";
-                    		People[z][0] = "NoId";
+                    		//peopleIDArray[z] = null;
+                    		People[z][0] = null;
                     		
                     		 
                     }
-                    }
+                    }*/
                     
                     if(s!= 0){
-                    if(idChecker(peopleIDArray, ((Node)textIdList.item(0)).getNodeValue().trim(), s )==0){
-            			System.out.println("ERROR, duplicate IDs detected");
-            			valid = 1;
-                    }
+                    	if(idChecker(peopleIDArray, ((Node)textIdList.item(0)).getNodeValue().trim(), s )==0){
+	                    //if(idChecker(People, ((Node)textIdList.item(0)).getNodeValue().trim(), s )==0){
+	            			System.out.println("ERROR, duplicate IDs detected");
+	            			valid = 1;
+	            			People[s][0] = null;
+	                    	System.out.println("-----INVALID");
+	                    }
+	                    //else{
+	                    	//valid = 0;
+	                    //}
                     }
                     if(valid==0){
+                    	People[s][0] = ((Node)textIdList.item(0)).getNodeValue().trim();
                     	peopleIDArray[s] = ((Node)textIdList.item(0)).getNodeValue().trim();
+                    	System.out.println("VALID");
                     }
                     
                     
@@ -225,14 +277,14 @@ public static void main (String[] args){
 
             }//end of for loop with s var
             
-            for(int i = 0; i<totalPersons; i++){
+            /*for(int i = 0; i<totalPersons; i++){
             	People[i][0] = peopleIDArray[i]; 
-            }
+            }*/
             int count = 0;
             System.out.println("ID" +"|" + "First" + "|"  + "Last");
             for(int b = 0; b<totalPersons; b++){
             	//People[i][0] = peopleIDArray[b]; 
-            	if(People[b][0]=="NoId"||People[b][1]=="ERROR"||People[b][2]=="ERROR"||People[b][0]=="NoID"){
+            	if(People[b][0]==null||People[b][1]==null||People[b][2]==null){
             		
             	}
             	else{
@@ -311,38 +363,32 @@ public static void main (String[] args){
                             }else{//ID is not an integer above 0
                             	System.out.println("ERROR, all IDs must be integer values");
                                 System.out.println("Please change this id: "+d);
-                                Pets[s][0] = "NoID";
-                                Pets[s][1] = "ERROR";
-                                Pets[s][2] = "ERROR";
+                                Pets[s][0] = null;
                                 
                             }
                         }catch(Exception e){
                         	System.out.println("ERROR, IDs must be integers only");
-                            Pets[s][0] = "NoID";
-                            Pets[s][1] = "ERROR";
-                            Pets[s][2] = "ERROR";
-                            
+                            Pets[s][0] = null;
                         }
                         
-                        if(s == 0){
+                        /*if(s == 0){
                         	for(int z = 0; z<totalDogs; z++){
                         		petIDArray[z] = "BLANK";
 
                         		 
                         }
-                        }
+                        }*/
                         
                         if(s!= 0){
-                        if(idChecker(petIDArray, ((Node)textFNList.item(0)).getNodeValue().trim(), s )==0){
-                			System.out.println("Error, duplicate IDs detected");
-                            Pets[s][0] = "NoID";
-                            Pets[s][1] = "ERROR";
-                            Pets[s][2] = "ERROR";
-                            
-                        }
-                        else{
-                        	Pets[s][0] = ((Node)textFNList.item(0)).getNodeValue().trim();
-                        }
+                        	if(idChecker(petIDArray, ((Node)textFNList.item(0)).getNodeValue().trim(), s )==0){
+	                        //if(idChecker(Pets, ((Node)textFNList.item(0)).getNodeValue().trim(), s )==0){
+	                			System.out.println("Error, duplicate IDs detected");
+	                            Pets[s][0] = null;
+	                            
+	                        }
+	                        else{
+	                        	Pets[s][0] = ((Node)textFNList.item(0)).getNodeValue().trim();
+	                        }
                         }
                         petIDArray[s] = ((Node)textFNList.item(0)).getNodeValue().trim();
                         
@@ -361,9 +407,7 @@ public static void main (String[] args){
                         	Pets[s][1] = ((Node)textLNList.item(0)).getNodeValue().trim();
                         }
                         else{
-                            Pets[s][0] = "NoID";
-                            Pets[s][1] = "ERROR";
-                            Pets[s][2] = "ERROR";
+                            Pets[s][0] = null;
                             
                         }
 
@@ -375,30 +419,28 @@ public static void main (String[] args){
                         //System.out.println("Owner ID : " + 
                         //       ((Node)textOwnerList.item(0)).getNodeValue().trim());
                         
-                        int test = 0;
+                        //int test = 0;
                         
                         try{
                             double d= Double.valueOf(((Node)textOwnerList.item(0)).getNodeValue().trim());
                             if (d==(int)d&&d>0){
-                            	test = 0;
+                            	//test = 0;
                             	//ID is an integer above 0
                             	Pets[s][2] = ((Node)textOwnerList.item(0)).getNodeValue().trim();
                             }
                             else{//ID is not an integer above 0
                             	System.out.println("ERROR, all IDs must be integer values");
                                 System.out.println("Please change this id: "+d);
-                                test = 1;
-                                Pets[s][0] = "NoID";
-                                Pets[s][1] = "ERROR";
-                                Pets[s][2] = "ERROR";
+                                //test = 1;
+                                Pets[s][0] = null;
+
                                 
                             }
                         }catch(Exception e){
-                        	test = 1;
+                        	//test = 1;
                         	System.out.println("ERROR, IDs must be integers only");
-                            Pets[s][0] = "NoID";
-                            Pets[s][1] = "ERROR";
-                            Pets[s][2] = "ERROR";
+                            Pets[s][0] = null;
+
                             
                         }
                         
@@ -428,7 +470,7 @@ public static void main (String[] args){
                 System.out.println("ID" +"|" + "Name" + "|"  + "Owner ID");
                 for(int b = 0; b<totalDogs; b++){
                 	//People[i][0] = peopleIDArray[b]; 
-                	if(Pets[b][0]=="NoId"||Pets[b][1]=="ERROR"||Pets[b][2]=="ERROR"||Pets[b][0]=="NoID"){
+                	if(Pets[b][0]==null||Pets[b][1]==null||Pets[b][2]==null||Pets[b][0]==null){
                 		
                 	}
                 	else{
@@ -439,7 +481,7 @@ public static void main (String[] args){
                 	}
                 	
                 }
-                System.out.println("Total pets: " + count);
+                System.out.println("Total " + petType + "s :"  + count);
                 
 
 
@@ -478,7 +520,7 @@ public static void main (String[] args){
         
         int ID = -1;
     	for(int i = 0; i<totalPersons; i++){
-    		if(People[i][0] != "NoID"){
+    		if(People[i][0] != null){
     			 ID = Integer.parseInt(People[i][0]);
     		}
     		else{
@@ -520,23 +562,39 @@ public static void main (String[] args){
     /**
      * idChecker()
      * This checks to make sure there are no duplicate IDs by checking if an ID has been entered into the array before
-     * @param String[]
+     * @param String[][]
      * @param String
      * @param integer
      * @returns integer
      */
-    public static int idChecker(String[] personIDArray, String ID, int Loc){
+    public static int idChecker(String[] People, String ID, int Loc){
     	
     	
+    	//String[] persons = personIDArray;
+    	//String[] peopleIDArray;//----Declares an array of the owners First Names
+        //peopleIDArray = new String[People.length];
+        //for(int s = 0; s<People.length; s++){
+        	//peopleIDArray[s] = People[s][0];
+        //}
+    	//int fail = -1;
+    	//for(int p = 0; p<peopleIDArray.length; p++){
+	    	//if(Arrays.asList(peopleIDArray).contains(ID)){
+    		if(Arrays.asList(People).contains(ID)){
+	    		return 0;
+	    		//fail = 1;
+	    	}
+	    	else{
+	    		//fail = 0;
+	    		return 1;
+	    	}
+    	//}
     	
-    	
-    	if(Arrays.asList(personIDArray).contains(ID)){
-    		return 0;
-    		
-    	}
-    	else{
-    		return -1;
-    	}
+    	//if(fail == 1){
+    		//return 0;
+    	//}
+    	//else{
+    		//return 1;
+    	//}
     	
     	
     	
@@ -603,20 +661,27 @@ public static void main (String[] args){
 
    
    
+   /*public static String tokenizer(String arg){
+	   String Token;
+	   
+	   return Token;
+   }*/
    
    
    
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
